@@ -3,14 +3,14 @@
 #define DEV_I2C Wire
 #define SerialPort Serial
 
-/*INT1 not enable by default, to enable INT1 change the pin setup on the board.*/
+/* INT1 unusable by default, in order to use INT1 you need to */
+/* close the pins 1 and 2 of JP2 and the pins 1 and 2 of JP9  */
 #define INT1 A2
-#define INT2 A4
 
-//Components
+// Components
 IIS2DLPCSensor *Acc;
 
-//Interrupts.
+// Interrupts.
 volatile int mems_event = 0;
 
 void INTEvent();
@@ -22,7 +22,7 @@ void setup() {
   // Serial for Output
   Serial.begin(115200);
 
-  //Inizialize I2C bus
+  // Inizialize I2C bus
   DEV_I2C.begin();
 
   // Interrupts
@@ -32,13 +32,13 @@ void setup() {
   Acc = new IIS2DLPCSensor(&DEV_I2C);
   Acc->Enable();
 
-  // Enable Free Fall Detection
+  // Enable Wake Up Detection
   Acc->EnableWakeUpDetection();
 }
 
 void loop() {
- IIS2DLPC_Event_Status_t status;
- if (mems_event) {
+  IIS2DLPC_Event_Status_t status;
+  if (mems_event) {
     Acc->GetEventStatus(&status);
     if (status.WakeUpStatus)
     {

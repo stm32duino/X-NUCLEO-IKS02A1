@@ -1,35 +1,34 @@
 #include <IIS2DLPCSensor.h>
-#include <IIS2MDCSensor.h>
 
 #define DEV_I2C Wire
 #define SerialPort Serial
 
-/*INT1 not enable by default, to enable INT1 change the pin setup on board.*/
+/* INT1 unusable by default, in order to use INT1 you need to */
+/* close the pins 1 and 2 of JP2 and the pins 1 and 2 of JP9  */
 #define INT1 A2
-#define INT2 A4
 
-//Components
+// Components
 IIS2DLPCSensor *Acc;
 
-//Interrupts.
+// Interrupts.
 volatile int mems_event = 0;
 
 void INTEvent();
 
 void setup() {
-  //LED
+  // LED
   pinMode(LED_BUILTIN,OUTPUT);
 
-  //Serial for Output
+  // Serial for Output
   Serial.begin(115200);
 
-  //Inizialize I2C bus
+  // Inizialize I2C bus
   DEV_I2C.begin();
 
-  //Interrupts.
+  // Interrupts.
   attachInterrupt(INT1, INTEvent, RISING);
   
-  //Inizialize and Enable Components
+  // Inizialize and Enable Components
   Acc = new IIS2DLPCSensor(&DEV_I2C);
   Acc->Enable();
 
@@ -38,9 +37,8 @@ void setup() {
 }
 
 void loop() {
- IIS2DLPC_Event_Status_t status;
- if (mems_event) {
-  
+  IIS2DLPC_Event_Status_t status;
+  if (mems_event) {
     Acc->GetEventStatus(&status);
     if (status.DoubleTapStatus)
     {
@@ -50,7 +48,6 @@ void loop() {
       digitalWrite(LED_BUILTIN, LOW);
 
       // Output data.
-      
       SerialPort.println("Double Tap Detected!");
     }
     mems_event = 0;
