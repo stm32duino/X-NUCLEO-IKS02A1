@@ -39,28 +39,28 @@ void loop() {
   digitalWrite(LED_BUILTIN, LOW);
   delay(500);
   
-  //ReadId
+  // ReadId
   uint8_t id[3];
   Acc->ReadID(&id[0]);
   Mag->ReadID(&id[1]);
   AccGyro->ReadID(&id[2]);
   
   // Read accelerometer
-  IIS2DLPC_Axes_t accAxes;
-  Acc->GetAxes(&accAxes);
+  int32_t accAxes[3];
+  Acc->GetAxes(accAxes);
 
   // Read magnetometer
   int32_t magnetometer[3];
   Mag->GetAxes(magnetometer);
 
   // Read accelerometer and gyroscope
-  ISM330DHCX_Axes_t acceAxes;
-  AccGyro->ACC_GetAxes(&acceAxes);
+  int32_t acceAxes[3];
+  AccGyro->ACC_GetAxes(acceAxes);
 
-  ISM330DHCX_Axes_t gyroAxes;
-  AccGyro->GYRO_GetAxes(&gyroAxes);
+  int32_t gyroAxes[3];
+  AccGyro->GYRO_GetAxes(gyroAxes);
   
-  //Output  
+  // Output  
   Serial.print("| Mag[mGauss]: ");
   Serial.print(magnetometer[0]);
   Serial.print(" ");
@@ -69,24 +69,24 @@ void loop() {
   Serial.print(magnetometer[2]);
   Serial.print(" ");
   Serial.print("| Acc[mg]: ");
-  Serial.print(acceAxes.x);
+  Serial.print(acceAxes[0]);
   Serial.print(" ");
-  Serial.print(acceAxes.y);
+  Serial.print(acceAxes[1]);
   Serial.print(" ");
-  Serial.print(acceAxes.z);
+  Serial.print(acceAxes[2]);
   Serial.print(" ");
   Serial.print("| Gyro[mdps]: ");
-  Serial.print(gyroAxes.x);
+  Serial.print(gyroAxes[0]);
   Serial.print(" ");
-  Serial.print(gyroAxes.y);
+  Serial.print(gyroAxes[1]);
   Serial.print(" ");
-  Serial.print(gyroAxes.z);
+  Serial.print(gyroAxes[2]);
   Serial.print(" ");
   Serial.print("| Acc2[mg]: ");
-  Serial.print(accAxes.x);
+  Serial.print(accAxes[0]);
   Serial.print(" ");
-  Serial.print(accAxes.y);
+  Serial.print(accAxes[1]);
   Serial.print(" ");
-  Serial.print(accAxes.z);
+  Serial.print(accAxes[2]);
   Serial.println(" |");
 }
