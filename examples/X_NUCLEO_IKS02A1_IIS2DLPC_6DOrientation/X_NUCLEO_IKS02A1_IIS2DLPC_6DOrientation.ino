@@ -8,7 +8,7 @@
 #define INT1 A2
 
 // Components
-IIS2DLPCSensor *Acc;
+IIS2DLPCSensor Acc(&DEV_I2C);
 
 // Interrupts
 volatile int mems_event = 0;
@@ -25,25 +25,25 @@ void setup() {
   // Serial for Output
   Serial.begin(115200);
 
-  // Inizialize I2C bus
+  // Initialize I2C bus
   DEV_I2C.begin();
 
   // Interrupts
   attachInterrupt(INT1, INTEvent, RISING);
   
-  // Inizialize and Enable Components
-  Acc = new IIS2DLPCSensor(&DEV_I2C);
-  Acc->Enable();
+  // Initialize and Enable Components
+  Acc.begin();
+  Acc.Enable();
 
   // Enable 6D Orientation Detection
-  Acc->Enable6DOrientation();
+  Acc.Enable6DOrientation();
 }
 
 void loop() {
   IIS2DLPC_Event_Status_t status;
 
   if (mems_event) {
-    Acc->GetEventStatus(&status);
+    Acc.GetEventStatus(&status);
     if (status.D6DOrientationStatus)
     {
       // Send D6D Orientation
@@ -68,12 +68,12 @@ void sendOrientation()
 {
   uint8_t xl,xh,yl,yh,zl,zh;
 
-  Acc->Get6DOrientationXL(&xl);
-  Acc->Get6DOrientationXH(&xh);
-  Acc->Get6DOrientationYL(&yl);
-  Acc->Get6DOrientationYH(&yh);  
-  Acc->Get6DOrientationZL(&zl);
-  Acc->Get6DOrientationZH(&zh);
+  Acc.Get6DOrientationXL(&xl);
+  Acc.Get6DOrientationXH(&xh);
+  Acc.Get6DOrientationYL(&yl);
+  Acc.Get6DOrientationYH(&yh);  
+  Acc.Get6DOrientationZL(&zl);
+  Acc.Get6DOrientationZH(&zh);
 
   if ( xl == 1 && yl == 0 && zl == 0 && xh == 0 && yh == 0 && zh == 0 )
   {

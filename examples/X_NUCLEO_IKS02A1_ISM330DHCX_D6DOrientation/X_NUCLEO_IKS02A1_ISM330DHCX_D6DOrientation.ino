@@ -6,7 +6,7 @@
 #define INT_1 D6
 
 // Components
-ISM330DHCXSensor *AccGyro;
+ISM330DHCXSensor AccGyro(&DEV_I2C);
 
 // Interrupts.
 volatile int mems_event = 0;
@@ -25,10 +25,10 @@ void setup() {
   // Interrupts.
   attachInterrupt(INT_1, INT1Event_cb, RISING);
   
-  AccGyro = new ISM330DHCXSensor(&DEV_I2C);
-  AccGyro->ACC_Enable();
+  AccGyro.begin();
+  AccGyro.ACC_Enable();
 
-  AccGyro->ACC_Enable6DOrientation(ISM330DHCX_INT1_PIN);
+  AccGyro.ACC_Enable6DOrientation(ISM330DHCX_INT1_PIN);
 }
 
 void loop() {
@@ -36,7 +36,7 @@ void loop() {
 
   if (mems_event)
   {      
-    AccGyro->ACC_GetEventStatus(&status);
+    AccGyro.ACC_GetEventStatus(&status);
 
     if (status.D6DOrientationStatus)
     {
@@ -62,12 +62,12 @@ void sendOrientation()
 {
   uint8_t xl,xh,yl,yh,zl,zh;
 
-  AccGyro->ACC_Get6DOrientationXL(&xl);
-  AccGyro->ACC_Get6DOrientationXH(&xh);
-  AccGyro->ACC_Get6DOrientationYL(&yl);
-  AccGyro->ACC_Get6DOrientationYH(&yh);  
-  AccGyro->ACC_Get6DOrientationZL(&zl);
-  AccGyro->ACC_Get6DOrientationZH(&zh);
+  AccGyro.ACC_Get6DOrientationXL(&xl);
+  AccGyro.ACC_Get6DOrientationXH(&xh);
+  AccGyro.ACC_Get6DOrientationYL(&yl);
+  AccGyro.ACC_Get6DOrientationYH(&yh);  
+  AccGyro.ACC_Get6DOrientationZL(&zl);
+  AccGyro.ACC_Get6DOrientationZH(&zh);
 
   if ( xl == 0 && yl == 0 && zl == 0 && xh == 0 && yh == 1 && zh == 0 )
   {
