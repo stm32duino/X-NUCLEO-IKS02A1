@@ -6,7 +6,7 @@
 #define INT_1 D6
 
 // Components
-ISM330DHCXSensor *AccGyro;
+ISM330DHCXSensor AccGyro(&DEV_I2C);
 
 // Interrupts
 volatile int mems_event = 0;
@@ -22,10 +22,10 @@ void setup() {
   // Interrupts.
   attachInterrupt(INT_2, INT1Event_cb, RISING);
   
-  AccGyro = new ISM330DHCXSensor(&DEV_I2C);
-  AccGyro->ACC_Enable();
+  AccGyro.begin();
+  AccGyro.ACC_Enable();
 
-  AccGyro->ACC_EnableFreeFallDetection(ISM330DHCX_INT2_PIN);
+  AccGyro.ACC_EnableFreeFallDetection(ISM330DHCX_INT2_PIN);
 }
 
 void loop() {
@@ -33,7 +33,7 @@ void loop() {
 
   if (mems_event)
   {      
-    AccGyro->ACC_GetEventStatus(&status);
+    AccGyro.ACC_GetEventStatus(&status);
     if (status.FreeFallStatus)
     {
       // Led blinking.

@@ -6,9 +6,9 @@
 #define DEV_I2C Wire
 
 // Components
-IIS2DLPCSensor *Acc;
-IIS2MDCSensor *Mag;
-ISM330DHCXSensor *AccGyro;
+IIS2MDCSensor Mag(&DEV_I2C);
+ISM330DHCXSensor AccGyro(&DEV_I2C);
+IIS2DLPCSensor Acc(&DEV_I2C);
 
 void setup() {
   // LED
@@ -17,19 +17,19 @@ void setup() {
   // Serial for Output
   Serial.begin(115200);
 
-  // Inizialize I2C bus
+  // Initialize I2C bus
   DEV_I2C.begin();
 
-  // Inizialize and Enable Components
-  Acc = new IIS2DLPCSensor(&DEV_I2C);
-  Acc->Enable();
+  // Initialize and Enable Components
+  Mag.begin();
+  Mag.Enable();
 
-  Mag = new IIS2MDCSensor(&DEV_I2C);
-  Mag->Enable();
+  AccGyro.begin();
+  AccGyro.ACC_Enable();
+  AccGyro.GYRO_Enable();
 
-  AccGyro = new ISM330DHCXSensor(&DEV_I2C);
-  AccGyro -> ACC_Enable();
-  AccGyro -> GYRO_Enable();
+  Acc.begin();
+  Acc.Enable();
 }
 
 void loop() {
@@ -38,27 +38,21 @@ void loop() {
   delay(500);
   digitalWrite(LED_BUILTIN, LOW);
   delay(500);
-  
-  // ReadId
-  uint8_t id[3];
-  Acc->ReadID(&id[0]);
-  Mag->ReadID(&id[1]);
-  AccGyro->ReadID(&id[2]);
-  
-  // Read accelerometer
-  int32_t accAxes[3];
-  Acc->GetAxes(accAxes);
 
   // Read magnetometer
   int32_t magnetometer[3];
-  Mag->GetAxes(magnetometer);
+  Mag.GetAxes(magnetometer);
 
   // Read accelerometer and gyroscope
-  int32_t acceAxes[3];
-  AccGyro->ACC_GetAxes(acceAxes);
+  int32_t accelerometer[3];
+  AccGyro.ACC_GetAxes(accelerometer);
 
-  int32_t gyroAxes[3];
-  AccGyro->GYRO_GetAxes(gyroAxes);
+  int32_t gyroscope[3];
+  AccGyro.GYRO_GetAxes(gyroscope);
+
+  // Read accelerometer
+  int32_t accelerometer2[3];
+  Acc.GetAxes(accelerometer2);
   
   // Output  
   Serial.print("| Mag[mGauss]: ");
@@ -69,24 +63,24 @@ void loop() {
   Serial.print(magnetometer[2]);
   Serial.print(" ");
   Serial.print("| Acc[mg]: ");
-  Serial.print(acceAxes[0]);
+  Serial.print(accelerometer[0]);
   Serial.print(" ");
-  Serial.print(acceAxes[1]);
+  Serial.print(accelerometer[1]);
   Serial.print(" ");
-  Serial.print(acceAxes[2]);
+  Serial.print(accelerometer[2]);
   Serial.print(" ");
   Serial.print("| Gyro[mdps]: ");
-  Serial.print(gyroAxes[0]);
+  Serial.print(gyroscope[0]);
   Serial.print(" ");
-  Serial.print(gyroAxes[1]);
+  Serial.print(gyroscope[1]);
   Serial.print(" ");
-  Serial.print(gyroAxes[2]);
+  Serial.print(gyroscope[2]);
   Serial.print(" ");
   Serial.print("| Acc2[mg]: ");
-  Serial.print(accAxes[0]);
+  Serial.print(accelerometer2[0]);
   Serial.print(" ");
-  Serial.print(accAxes[1]);
+  Serial.print(accelerometer2[1]);
   Serial.print(" ");
-  Serial.print(accAxes[2]);
+  Serial.print(accelerometer2[2]);
   Serial.println(" |");
 }

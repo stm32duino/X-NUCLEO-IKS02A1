@@ -8,7 +8,7 @@
 #define INT1 A2
 
 // Components
-IIS2DLPCSensor *Acc;
+IIS2DLPCSensor Acc(&DEV_I2C);
 
 // Interrupts.
 volatile int mems_event = 0;
@@ -22,24 +22,24 @@ void setup() {
   // Serial for Output
   Serial.begin(115200);
 
-  // Inizialize I2C bus
+  // Initialize I2C bus
   DEV_I2C.begin();
 
   // Interrupts
   attachInterrupt(INT1, INTEvent, RISING);
   
-  // Inizialize and Enable Components
-  Acc = new IIS2DLPCSensor(&DEV_I2C);
-  Acc->Enable();
+  // Initialize and Enable Components
+  Acc.begin();
+  Acc.Enable();
 
   // Enable Single Tap Detection  
-  Acc->EnableSingleTapDetection();
+  Acc.EnableSingleTapDetection();
 }
 
 void loop() {
   IIS2DLPC_Event_Status_t status;
   if (mems_event) {
-    Acc->GetEventStatus(&status);
+    Acc.GetEventStatus(&status);
     if (status.TapStatus)
     {
       // Led blinking
