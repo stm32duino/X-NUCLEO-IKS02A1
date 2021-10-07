@@ -1,5 +1,5 @@
 # X-NUCLEO-IKS02A1
-The X-NUCLEO-IKS02A1 is a motion MEMS and environmental sensor expansion board for the STM32 Nucleo.
+The X-NUCLEO-IKS02A1 is a motion MEMS and audio sensor expansion board for the STM32 Nucleo.
 
 It is equipped with Arduino UNO R3 connector layout, and is designed around the ISM330DHCX 3D accelerometer and 3D gyroscope,
 the IIS2DLPC 3D accelerometer, the IIS2MDC 3D magnetometer, the IMP34DT05 digital microphone.
@@ -10,7 +10,7 @@ The X-NUCLEO-IKS02A1 interfaces with the STM32 microcontroller via the I²C pin.
 
 There are several examples with the X-NUCLEO-IKS02A1 library.
 * X_NUCLEO_IKS02A1_HelloWorld: This application provides a simple example of usage of the X-NUCLEO-IKS02A1 Expansion Board. 
-It shows how to display on a hyperterminal the values of all on-board MEMS and environmental sensors.
+It shows how to display on a hyperterminal the values of all on-board MEMS inertial sensors.
 * X_NUCLEO_IKS02A1_IIS2DLPC_6DOrientation: This application shows how to use X-NUCLEO-IKS02A1 IIS2DLPC accelerometer to find out the 6D orientation and display data on a hyperterminal. 
 * X_NUCLEO_IKS02A1_IIS2DLPC_WakeUp: This application shows how to detect the wake-up event using the X-NUCLEO-IKS02A1 IIS2DLPC accelerometer.
 * X_NUCLEO_IKS02A1_IIS2DLPC_FreeFallDetection: This application shows how to detect the free fall event using the X-NUCLEO-IKS02A1 IIS2DLPC accelerometer.
