@@ -94,7 +94,7 @@ void Read_FIFO_Data(uint16_t samples_to_read)
       gyr_available = false;
     }
   }
-  // We can add the termination character to the string, so we are ready to save it in flash
+  // We can add the termination character to the string, so we are ready to print it on hyper-terminal
   buff[pos] = '\0';
   pos = 0;
 }
