@@ -21,6 +21,7 @@ It shows how to display on a hyperterminal the values of all on-board MEMS inert
 * X_NUCLEO_IKS02A1_ISM330DHCX_FreeFallDetection: This application shows how to detect the free fall event using the X-NUCLEO-IKS02A1 ISM330DHCX accelerometer.
 * X_NUCLEO_IKS02A1_ISM330DHCX_SingleTap: This application shows how to detect the single tap event using the X-NUCLEO-IKS02A1 ISM330DHCX accelerometer.
 * X_NUCLEO_IKS02A1_ISM330DHCX_DoubleTap: This application shows how to detect the double tap event using the X-NUCLEO-IKS02A1 ISM330DHCX accelerometer.
+* X_NUCLEO_IKS02A1_ISM330DHCX_FIFO: This application shows how to store accelerometer and gyroscope data of the X-NUCLEO-IKS02A1 ISM330DHCX sensor into the FIFO in continuous mode.
 
 There is also an example based on the X-NUCLEO-IKS02A1 Audio library.
 * X_NUCLEO_IKS02A1_Python_Wave_Serial_Encoder: This application shows how to record some data with [IMP34DT05](https://www.st.com/en/mems-and-sensors/imp34dt05.html)  digital microphone and send them through serial to a Python application which will write data to a wave file (Python application can be downloaded at https://github.com/stm32duino/Python-Wave-Serial-Encoder)
